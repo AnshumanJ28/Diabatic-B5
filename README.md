@@ -1,7 +1,39 @@
-# Diabatic-B5
 # Diabatic-B5 — Retinal Disease Classification using EfficientNet-B5
 
-A deep learning project for **binary classification of retinal diseases** from fundus images, built using a pretrained **EfficientNet-B5** model. The pipeline is trained and evaluated on two datasets — **APTOS 2019** (primary) and **RFMiD** (generalization check).
+![Python](https://img.shields.io/badge/Python-3.10%2B-blue)
+![PyTorch](https://img.shields.io/badge/PyTorch-EE4C2C?logo=pytorch&logoColor=white)
+![timm](https://img.shields.io/badge/timm-EfficientNet--B5-brightgreen)
+![Kaggle](https://img.shields.io/badge/Kaggle-GPU%20notebook-20BEFF?logo=kaggle&logoColor=white)
+![License](https://img.shields.io/badge/license-MIT-green)
+
+A deep learning project for **binary classification of retinal diseases**
+from fundus images, built using a pretrained **EfficientNet-B5** model.
+The pipeline is trained and evaluated on two datasets — **APTOS 2019**
+(primary) and **RFMiD** (generalization check).
+
+> ⚠️ **Not for clinical use.** This is a research/portfolio project. It
+> has not been validated for diagnostic use and should not be used to
+> make real medical decisions.
+
+---
+
+## Table of Contents
+
+- [Project Overview](#project-overview)
+- [Dataset Description](#dataset-description)
+- [Model Architecture](#model-architecture)
+- [Training Pipeline](#training-pipeline)
+- [Data Augmentation](#data-augmentation)
+- [Evaluation Metrics](#evaluation-metrics)
+- [Results](#results)
+- [ROC Curve & PR Curve](#roc-curve--pr-curve)
+- [Overfitting Analysis](#overfitting-analysis)
+- [Additional Analysis](#additional-analysis)
+- [Project Structure](#project-structure)
+- [How to Run](#how-to-run)
+- [Dependencies](#dependencies)
+- [Author](#author)
+- [License](#license)
 
 ---
 
@@ -16,8 +48,6 @@ A deep learning project for **binary classification of retinal diseases** from f
 | Framework | PyTorch + timm |
 | Input Resolution | 456 × 456 px |
 
----
-
 ## Dataset Description
 
 ### APTOS 2019 — Primary Training Dataset
@@ -30,8 +60,6 @@ A deep learning project for **binary classification of retinal diseases** from f
 - Used the `Disease_Risk` column as the binary target
 - **Purpose:** Evaluate whether the model generalizes beyond the APTOS domain, and to check for overfitting
 - A model that performs well on both datasets is considered well-generalized
-
----
 
 ## Model Architecture
 
@@ -58,8 +86,6 @@ EfficientNet-B5 (Pretrained ImageNet Backbone)
 - Classifier head replaced with a custom `Dropout → Linear(1)` layer
 - Output passed through `sigmoid` for probability estimation
 
----
-
 ## Training Pipeline
 
 ### Phase 1 — Frozen Backbone (8 Epochs)
@@ -77,8 +103,6 @@ EfficientNet-B5 (Pretrained ImageNet Backbone)
 - Test-time augmentation: horizontal flip averaging
 - Scheduler: `CosineAnnealingLR` (T_max = 4)
 
----
-
 ## Data Augmentation
 
 | Split | Transforms |
@@ -87,8 +111,6 @@ EfficientNet-B5 (Pretrained ImageNet Backbone)
 | Validation | Resize (456×456), Normalize |
 
 ImageNet normalization stats used: `mean=[0.485, 0.456, 0.406]`, `std=[0.229, 0.224, 0.225]`
-
----
 
 ## Evaluation Metrics
 
@@ -106,8 +128,6 @@ The following metrics are computed on the validation set:
 | **MCC** | Matthews Correlation Coefficient |
 | **Cohen's Kappa** | Agreement beyond chance |
 | **Balanced Accuracy** | Average of Sensitivity and Specificity |
-
----
 
 ## Results
 
@@ -131,8 +151,6 @@ The following metrics are computed on the validation set:
 
 > A strong performance on RFMiD confirms the model generalizes well and is **not overfitting** to the APTOS domain.
 
----
-
 ## ROC Curve & PR Curve
 
 The notebook generates:
@@ -141,8 +159,6 @@ The notebook generates:
 - **Precision-Recall Curve** — especially useful for imbalanced datasets
 - **Calibration Curve** — evaluates how well predicted probabilities match true outcomes
 - **Confusion Matrix** — for both training and validation sets
-
----
 
 ## Overfitting Analysis
 
@@ -157,27 +173,20 @@ Two checks are performed:
 
 3. **Cross-dataset evaluation on RFMiD** — the strongest real-world generalization test
 
----
-
 ## Additional Analysis
 
 - **Threshold Analysis** — evaluates Recall and Precision at thresholds: `0.3, 0.4, 0.5, 0.6, 0.7`
 - **Bootstrap Confidence Interval** — 95% CI on accuracy over 1000 iterations
 - **Gaussian Noise Robustness** — utility function to test model stability under noise
 
----
-
 ## Project Structure
 
 ```
 Diabatic-B5/
-│
 ├── epics-project.ipynb       # Main notebook (training + evaluation)
 ├── README.md                 # Project documentation
 └── .gitignore                # Ignores model weights, checkpoints, datasets
 ```
-
----
 
 ## How to Run
 
@@ -186,8 +195,6 @@ Diabatic-B5/
    - [APTOS 2019](https://www.kaggle.com/datasets/mariaherrerot/aptos2019)
    - [RFMiD](https://www.kaggle.com/datasets/andrewmvd/retinal-disease-classification)
 3. Run all cells in order
-
----
 
 ## Dependencies
 
@@ -204,9 +211,11 @@ Pillow
 tqdm
 ```
 
----
-
 ## Author
 
-**AnshumanJ28**  
+**AnshumanJ28**
 GitHub: [@AnshumanJ28](https://github.com/AnshumanJ28)
+
+## License
+
+This project is licensed under the MIT License — see the [LICENSE](./LICENSE) file for details.
